@@ -1,0 +1,21 @@
+body {
+  background-color: #ffffff;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: 'Roboto', 'Noto', sans-serif;
+}
+
+.output {
+  background: #fff;
+  border-radius: 2px;
+  display: inline-block;
+  height: 300px;
+  position: relative;
+  width: 300px;
+  border-top: 1px solid #eee;
+}
+
+#log {
+  white-space: pre-wrap;
+}

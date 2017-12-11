@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="description" content="Sample showing your network information.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Network Information</title>
+        <link rel="stylesheet" href="main.css">
+
+        <script>
+          // Add a global error event listener early on in the page load, to help ensure that browsers
+          // which don't support specific functionality still end up displaying a meaningful message.
+          window.addEventListener('error', function(error) {
+            if (ChromeSamples && ChromeSamples.setStatus) {
+              console.error(error);
+              ChromeSamples.setStatus(error.message + ' (Your browser may not support this feature.)');
+              error.preventDefault();
+            }
+          });
+        </script>
+
+    </head>
+
+      <body>
+
+        <h1>Network Information</h1>
+
+        <script>
+          var ChromeSamples = {
+            log: function() {
+              var line = Array.prototype.slice.call(arguments).map(function(argument) {
+                return typeof argument === 'string' ? argument : JSON.stringify(argument);
+              }).join(' ');
+
+              document.querySelector('#log').textContent += line + '\n';
+            },
+
+            clearLog: function() {
+              document.querySelector('#log').textContent = '';
+            },
+
+            setStatus: function(status) {
+              document.querySelector('#status').textContent = status;
+            },
+
+            setContent: function(newContent) {
+              var content = document.querySelector('#content');
+              while(content.hasChildNodes()) {
+                content.removeChild(content.lastChild);
+              }
+              content.appendChild(newContent);
+            }
+          };
+        </script>
+        <!--<h3>Live Output</h3>-->
+        <div id="output" class="output">
+          <p id="content"></p>
+          <p id="status"></p>
+          <p id="log">
+        </p>
+        </div>
+
+        <script>
+          var times = 1;
+          var log = function(args) {
+            ChromeSamples.log(args);
+            if (times % 5 == 0) {
+              ChromeSamples.log('');
+            }
+            times++;
+          }
+        </script>
+
+        <script>navigator.connection.addEventListener('change', logNetworkInfo);
+
+                function logNetworkInfo() {
+                  // Network type that browser uses
+    //              log('         type: ' + navigator.connection.type);
+
+                  // Effective bandwidth estimate
+                  log('\nDownload speed: ' + navigator.connection.downlink + 'Mb/s');
+
+                    // Effective connection type determined using a combination of recently
+                    // observed rtt and downlink values: ' +
+                    log('\nEffectively considered: ' + navigator.connection.effectiveType);
+
+                  // Effective round-trip time estimate
+                  log('\nLatency: ' + navigator.connection.rtt + 'ms');
+
+                  // Upper bound on the downlink speed of the first network hop
+    //              log('  downlinkMax: ' + navigator.connection.downlinkMax + 'Mb/s');
+
+                }
+
+                logNetworkInfo();
+        </script>
+
+    </body>
+</html>
